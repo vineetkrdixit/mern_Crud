@@ -81,16 +81,27 @@ app.get("/getdetail", async (req, res) => {
   }
 });
 
-app.delete("/delete", async (req, res) => {
-  CRUDDETAIL.deleteOne({}, (err, result) => {
-    if (err) {
-      console.log("Data Not Deleted");
-    } else {
-      console.log("Data Deleted");
+app.delete(`/delete/:id`, async (req, res) => {
+  // console.log(id);
+  const { id } = req.params;
+  console.log("id", id);
+
+  CRUDDETAIL.findByIdAndDelete({ _id: id }, (err, result) => {
+    if (result) {
       console.log("result", result);
     }
   });
+  // CRUDDETAIL.deleteOne({}, (err, result) => {
+  //   if (err) {
+  //     console.log("Data Not Deleted");
+  //   } else {
+  //     console.log("Data Deleted");
+  //     console.log("result", result);
+  //   }
+  // });
 });
+
+// app.put("/update", async (req, res) => {});
 
 app.listen(process.env.PORT, () => {
   console.log("Server has been started at port no ", process.env.PORT);

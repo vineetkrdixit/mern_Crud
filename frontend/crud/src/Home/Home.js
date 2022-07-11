@@ -4,7 +4,7 @@ import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCanArrowUp } from "@fortawesome/free-solid-svg-icons";
 import "../Home/Home.css";
 import axios from "axios";
-import Modal from "../Modal/Modal";
+// import Modal from "../Modal/Modal";
 
 const Home = () => {
   const [addDetails, setAddDetails] = useState({
@@ -14,9 +14,9 @@ const Home = () => {
     dob: "",
     gender: "",
   });
-  const [deleteData, setDeleteData] = useState([]);
 
   const [getdetail, setGetDetails] = useState([]);
+  // const [deleteModal, setDeleteModal] = useState(false);
 
   const handelChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +24,6 @@ const Home = () => {
       ...addDetails,
       [name]: value,
     });
-    console.log("add", addDetails);
   };
 
   const handelClick = (e) => {
@@ -49,11 +48,11 @@ const Home = () => {
     }
   };
 
-  const deleteDetail = () => {
-    {
-      <Modal />;
-    }
-    // axios.delete("http://localhost:3001/delete").then((res) => {});
+  const deleteDetail = (id) => {
+    axios.delete(`http://localhost:3001/delete/${id}`).then((res) => {
+      alert("Data Deleted");
+    });
+    // setDeleteModal(true);
   };
   const updateDetail = () => {
     console.log("Updated");
@@ -67,7 +66,7 @@ const Home = () => {
   };
   useEffect(() => {
     renderDetails();
-  }, [getdetail]);
+  }, []);
   console.log("getdetails", getdetail);
 
   return (
@@ -76,7 +75,7 @@ const Home = () => {
         <div className="d-flex">
           <div className=" card p-3 col-lg-6">
             <div className="mb-3">
-              <label for="exampleFormControlInput1" className="form-label">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 Name
               </label>
               <input
@@ -90,7 +89,7 @@ const Home = () => {
               />
             </div>
             <div className="mb-3">
-              <label for="exampleFormControlInput2" className="form-label">
+              <label htmlFor="exampleFormControlInput2" className="form-label">
                 Salary
               </label>
               <input
@@ -104,7 +103,7 @@ const Home = () => {
               />
             </div>
             <div className="mb-3">
-              <label for="exampleFormControlInput3" className="form-label">
+              <label htmlFor="exampleFormControlInput3" className="form-label">
                 Employee-ID
               </label>
               <input
@@ -118,7 +117,7 @@ const Home = () => {
               />
             </div>
             <div className="mb-3">
-              <label for="exampleFormControlInput4" className="form-label">
+              <label htmlFor="exampleFormControlInput4" className="form-label">
                 DOB
               </label>
               <input
@@ -146,7 +145,7 @@ const Home = () => {
                 value="Male"
                 onChange={handelChange}
               />
-              <label className="form-check-label" for="flexRadioDefault1">
+              <label className="form-check-label" htmlFor="flexRadioDefault1">
                 Male
               </label>
             </div>
@@ -159,7 +158,7 @@ const Home = () => {
                 value="Female"
                 onChange={handelChange}
               />
-              <label className="form-check-label" for="flexRadioDefault2">
+              <label className="form-check-label" htmlFor="flexRadioDefault2">
                 Female
               </label>
             </div>
@@ -200,12 +199,14 @@ const Home = () => {
                           onClick={updateDetail}
                         />
                       </span>
+
                       <span className="span-icons">
                         <FontAwesomeIcon
                           icon={faTrashCanArrowUp}
-                          onClick={deleteDetail}
-                          data-bs-toggle="modal"
-                          data-bs-target="#exampleModal"
+                          onClick={() => {
+                            deleteDetail(items._id);
+                          }}
+                          // onClick={deleteDetail(items._id)}
                         />
                       </span>
                     </tr>
