@@ -100,7 +100,19 @@ app.get("/update/:id", async (req, res) => {
 
   const updateitems = await CRUDDETAIL.findById({ _id: id });
   res.send(updateitems);
-  console.log("Updateid", updateitems);
+});
+
+app.patch("/updateuser/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log("userId", id);
+  console.log("new data", req.body);
+
+  const userUpdatedData = await CRUDDETAIL.findByIdAndUpdate(
+    { _id: id },
+    req.body,
+    { new: true }
+  );
+  console.log("update value", userUpdatedData.name);
 });
 
 app.listen(process.env.PORT, () => {

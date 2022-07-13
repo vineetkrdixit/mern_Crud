@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Modalupdate = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [getData, setGetData] = useState({
     name: "",
@@ -15,8 +16,27 @@ const Modalupdate = () => {
 
   const IndiVidualId = location.state.userid;
   console.log("IndiVidualId", IndiVidualId);
-  const setData = () => {};
-  const handelUpdate = () => {};
+  const setData = (e) => {
+    const { name, value } = e.target;
+    setGetData({
+      ...getData,
+      [name]: value,
+    });
+  };
+  const handelUpdate = (e) => {
+    e.preventDefault();
+
+    axios
+      .patch(`http://localhost:3002/updateuser/${IndiVidualId}`, getData)
+      .then((res) => {
+        navigate("/home");
+        console.log("User Updated");
+        alert("User Updated");
+      })
+      .catch((err) => {
+        console.log("Error in Update");
+      });
+  };
 
   const findindividualDetail = () => {
     axios
