@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Modal = (props) => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Modal = (props) => {
       <div
         class="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -55,7 +55,10 @@ const Modal = (props) => {
                 onClick={deleteTask}
                 data-bs-dismiss="modal"
               >
-                Delete
+                <Link to="/home" style={{ textDecoration: "none" }}>
+                  {" "}
+                  Delete
+                </Link>
               </button>
             </div>
           </div>

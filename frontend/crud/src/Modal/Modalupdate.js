@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 const Modalupdate = () => {
@@ -149,7 +149,10 @@ const Modalupdate = () => {
           className="btn btn-warning"
           onClick={handelUpdate}
         >
-          Update
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            {" "}
+            Update
+          </Link>
         </button>
       </div>
     </>
