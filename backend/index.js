@@ -89,19 +89,19 @@ app.delete(`/delete/:id`, async (req, res) => {
   CRUDDETAIL.findByIdAndDelete({ _id: id }, (err, result) => {
     if (result) {
       console.log("result", result);
+      console.log("Data Deleted");
     }
   });
-  // CRUDDETAIL.deleteOne({}, (err, result) => {
-  //   if (err) {
-  //     console.log("Data Not Deleted");
-  //   } else {
-  //     console.log("Data Deleted");
-  //     console.log("result", result);
-  //   }
-  // });
 });
 
-// app.put("/update", async (req, res) => {});
+// app.get("/update/:id", async (req, res) => {
+//   const { id } = req.params;
+//   console.log("iiiiiid", id);
+
+//   const updateitems = await CRUDDETAIL.findById({ _id: id });
+//   res.send(updateitems);
+//   console.log("Updateid", updateitems);
+// });
 
 app.listen(process.env.PORT, () => {
   console.log("Server has been started at port no ", process.env.PORT);

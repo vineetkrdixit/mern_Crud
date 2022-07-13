@@ -4,9 +4,11 @@ import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCanArrowUp } from "@fortawesome/free-solid-svg-icons";
 import "../Home/Home.css";
 import axios from "axios";
-// import Modal from "../Modal/Modal";
+import { useNavigate } from "react-router-dom";
+import Modal from "../Modal/Modal";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [addDetails, setAddDetails] = useState({
     name: "",
     salary: "",
@@ -16,7 +18,8 @@ const Home = () => {
   });
 
   const [getdetail, setGetDetails] = useState([]);
-  // const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [did, setDId] = useState("");
 
   const handelChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +41,7 @@ const Home = () => {
       alert("Please Fill all the details");
     } else {
       axios
-        .post("http://localhost:3001/adddetail", addDetails)
+        .post("http://localhost:3002/adddetail", addDetails)
         .then((res) => {
           alert(res.data.message);
         })
@@ -49,25 +52,22 @@ const Home = () => {
   };
 
   const deleteDetail = (id) => {
-    axios.delete(`http://localhost:3001/delete/${id}`).then((res) => {
-      alert("Data Deleted");
-    });
-    // setDeleteModal(true);
+    setDeleteModal(true);
+    setDId(id);
   };
-  const updateDetail = () => {
-    console.log("Updated");
+
+  const updateDetail = (userid) => {
+    navigate("/update", { state: { userid } });
   };
 
   const renderDetails = () => {
-    axios.get("http://localhost:3001/getdetail").then((res) => {
-      console.log("Res", res);
+    axios.get("http://localhost:3002/getdetail").then((res) => {
       setGetDetails(res.data);
     });
   };
   useEffect(() => {
     renderDetails();
-  }, []);
-  console.log("getdetails", getdetail);
+  }, [getdetail]);
 
   return (
     <>
@@ -194,20 +194,30 @@ const Home = () => {
                       <td>{items.dob}</td>
                       <td>{items.gender}</td>
                       <span className="span-icons">
-                        <FontAwesomeIcon
-                          icon={faPenSquare}
-                          onClick={updateDetail}
-                        />
+                        <button>
+                          <FontAwesomeIcon
+                            icon={faPenSquare}
+                            onClick={() => {
+                              updateDetail(items._id);
+                            }}
+                          />
+                        </button>
                       </span>
-
                       <span className="span-icons">
-                        <FontAwesomeIcon
-                          icon={faTrashCanArrowUp}
-                          onClick={() => {
-                            deleteDetail(items._id);
-                          }}
-                          // onClick={deleteDetail(items._id)}
-                        />
+                        <button
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCanArrowUp}
+                            onClick={() => {
+                              deleteDetail(items._id);
+                            }}
+                          />
+                        </button>
+                        {deleteModal && (
+                          <Modal deleteModal={deleteModal} did={did} />
+                        )}
                       </span>
                     </tr>
                   );
