@@ -94,14 +94,14 @@ app.delete(`/delete/:id`, async (req, res) => {
   });
 });
 
-// app.get("/update/:id", async (req, res) => {
-//   const { id } = req.params;
-//   console.log("iiiiiid", id);
+app.get("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log("id", id);
 
-//   const updateitems = await CRUDDETAIL.findById({ _id: id });
-//   res.send(updateitems);
-//   console.log("Updateid", updateitems);
-// });
+  const updateitems = await CRUDDETAIL.findById({ _id: id });
+  res.send(updateitems);
+  console.log("Updateid", updateitems);
+});
 
 app.listen(process.env.PORT, () => {
   console.log("Server has been started at port no ", process.env.PORT);

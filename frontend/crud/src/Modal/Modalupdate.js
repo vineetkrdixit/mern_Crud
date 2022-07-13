@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Modalupdate = () => {
+  const location = useLocation();
   const [getData, setGetData] = useState({
     name: "",
     salary: "",
@@ -8,8 +11,28 @@ const Modalupdate = () => {
     dob: "",
     gender: "",
   });
+  // const [indGetData, setIndGetData] = useState([]);
+
+  const IndiVidualId = location.state.userid;
+  console.log("IndiVidualId", IndiVidualId);
   const setData = () => {};
   const handelUpdate = () => {};
+
+  const findindividualDetail = () => {
+    axios
+      .get(`http://localhost:3002/update/${IndiVidualId}`)
+      .then((res) => {
+        console.log("response", res);
+        setGetData(res.data);
+      })
+      .catch((err) => {
+        console.log("Error in fecting individual Details");
+      });
+  };
+
+  useEffect(() => {
+    findindividualDetail();
+  }, []);
   return (
     <>
       <div className=" card p-3 col-lg-6">
